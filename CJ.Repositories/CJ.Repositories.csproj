@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspectCore.Core" Version="1.2.0" />
+    <PackageReference Include="AspectCore.Extensions.DependencyInjection" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CJ.Core\CJ.Core.csproj" />
+    <ProjectReference Include="..\CJ.Data\CJ.Data.csproj" />
+    <ProjectReference Include="..\CJ.Domain\CJ.Domain.csproj" />
+    <ProjectReference Include="..\Cj.Entities\CJ.Entities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="AspectCore.Extensions.Autofac">
+      <HintPath>C:\Users\Administrator\.nuget\packages\aspectcore.extensions.autofac\1.2.0\lib\netstandard2.0\AspectCore.Extensions.Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac">
+      <HintPath>C:\Users\Administrator\.nuget\packages\autofac\4.9.2\lib\netstandard2.0\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.entityframeworkcore\2.1.1\lib\netstandard2.0\Microsoft.EntityFrameworkCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.configuration.abstractions\2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.dependencyinjection.abstractions\2.1.1\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
