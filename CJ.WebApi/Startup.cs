@@ -7,6 +7,7 @@ using Autofac.Extensions.DependencyInjection;
 using CJ.Application;
 using CJ.Core;
 using CJ.Core.Exception;
+using CJ.Core.Ftw.jwt;
 using CJ.Data;
 using CJ.Domain;
 using CJ.Repositories;
@@ -40,7 +41,10 @@ namespace CJ.WebApi
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddMvc(o => o.Filters.Add<GlobalExceptionFilter>()).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(o => {
+                o.Filters.Add<GlobalExceptionFilter>();
+                o.Filters.Add<AuthActionFilter>();
+            } ).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCore(Configuration);
             services.AddUow();
             services.AddBaseReposity(Configuration);
@@ -67,7 +71,7 @@ namespace CJ.WebApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+           // app.UseJwt();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

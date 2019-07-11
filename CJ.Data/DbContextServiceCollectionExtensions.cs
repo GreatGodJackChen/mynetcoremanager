@@ -1,6 +1,7 @@
 ﻿using System;
 using CJ.Data.FirstModels;
 using CJ.Data.Logger;
+using CJ.Data.NetCoreModels;
 using CJ.Data.SecondTestModel;
 using CJ.Domain.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,13 @@ namespace CJ.Data
                 .UseLoggerFactory(LoggerFactory)
                 .Options;
             services.AddSingleton(secondOptions).AddTransient(typeof(SecondTestDBContext));
+
+            var NetCoreConn = configuration["ConnectionStrings:NetCore"];
+            var NetCoreOptions = new DbContextOptionsBuilder<NetCoreContext>()
+                .UseSqlServer(NetCoreConn)
+                .UseLoggerFactory(LoggerFactory)
+                .Options;
+            services.AddSingleton(NetCoreOptions).AddTransient(typeof(NetCoreContext));
 
             services.AddTransient<IConnectionStringResolver, MyConnectionStringResolver>();
         }

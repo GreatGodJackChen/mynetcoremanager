@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CJ.Domain.EntityFrameworkCore;
 using CJ.Data.FirstModels;
 using CJ.Data.SecondTestModel;
+using CJ.Data.NetCoreModels;
 
 namespace CJ.Data
 {
@@ -38,6 +39,10 @@ namespace CJ.Data
             if (type == typeof(SecondTestDBContext))
             {
                 return _configuration["ConnectionStrings:SecondTestDbB"];
+            }
+            if (type == typeof(NetCoreContext))
+            {
+                return _configuration["ConnectionStrings:NetCore"];
             }
             return null;
         }

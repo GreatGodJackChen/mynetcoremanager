@@ -14,7 +14,7 @@ namespace CJ.Application
         {
             Assembly dataAccess = Assembly.Load("CJ.Application");
             containerBuilder.RegisterAssemblyTypes(dataAccess, dataAccess)
-                .Where(t => t.Name.EndsWith("AppService"))
+                .Where(t => t.Name.EndsWith("AppService") || t.Name.EndsWith("App"))
                 .AsImplementedInterfaces();
 
             containerBuilder.RegisterType<TestAutofacAppService>().As<ITestAutofacAppService>().InstancePerLifetimeScope();
