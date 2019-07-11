@@ -41,14 +41,14 @@ namespace CJ.Core.Ftw.jwt
                     {
                         context.HttpContext.Response.StatusCode = 401;
                         context.HttpContext.Response.ContentType = "application/json";
-                        await context.HttpContext.Response.WriteAsync("{\"status\":401,\"statusMsg\":\"auth vaild fail\"}");
+                        await context.HttpContext.Response.WriteAsync("{\"Code\":401,\"Message\":\"无权访问\"}");
                     }
                 }
                 else
                 {
                     context.HttpContext.Response.StatusCode = 401;
                     context.HttpContext.Response.ContentType = "application/json";
-                    await context.HttpContext.Response.WriteAsync("{\"status\":401,\"statusMsg\":\"auth vaild fail\"}");
+                    await context.HttpContext.Response.WriteAsync("{\"Code\":401,\"Message\":\"无权访问\"}");
                 }
             }
 
