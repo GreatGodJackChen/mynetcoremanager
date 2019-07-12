@@ -8,6 +8,7 @@ using CJ.Application;
 using CJ.Core;
 using CJ.Core.Exception;
 using CJ.Core.Ftw.jwt;
+using CJ.Core.Middlewares;
 using CJ.Data;
 using CJ.Domain;
 using CJ.Repositories;
@@ -41,6 +42,23 @@ namespace CJ.WebApi
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            //跨域问题
+
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("AllowSpecificOrigin",
+            //        builder =>
+            //        {
+            //    //builder.WithOrigins("http://0.0.0.0:3201").AllowAnyHeader();
+            //    builder.SetIsOriginAllowed((string arg) => {
+            //                System.Console.WriteLine(arg);
+            //                return true;
+            //            });
+            //        });
+
+            //});
+            /////
             services.AddMvc(o => {
                 o.Filters.Add<GlobalExceptionFilter>();
                 o.Filters.Add<AuthActionFilter>();
@@ -71,7 +89,9 @@ namespace CJ.WebApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-           // app.UseJwt();
+           app.UseOptionMiddleware();
+           // app.UseCors("AllowSpecificOrigin");
+            // app.UseJwt();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

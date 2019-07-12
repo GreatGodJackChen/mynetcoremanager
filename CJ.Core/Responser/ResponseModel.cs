@@ -10,7 +10,9 @@ namespace CJ.Core.Responser
         {
             Code = 200;
             Message = "操作成功";
+            status = "ok";
         }
+        public string status { get; set; }
         /// <summary>
         /// 响应代码
         /// </summary>
@@ -32,6 +34,7 @@ namespace CJ.Core.Responser
         {
             Code = 200;
             Message = message;
+            status = "ok";
         }
         /// <summary>
         /// 设置响应状态为失败
@@ -41,6 +44,7 @@ namespace CJ.Core.Responser
         {
             Message = message;
             Code = 999;
+            status = "error";
         }
 
         /// <summary>
@@ -51,6 +55,7 @@ namespace CJ.Core.Responser
         {
             Message = message;
             Code = 999;
+            status = "error";
         }
 
         /// <summary>
@@ -61,6 +66,7 @@ namespace CJ.Core.Responser
         {
             Code = 500;
             Message = message;
+            status = "error";
         }
 
         /// <summary>
@@ -71,6 +77,7 @@ namespace CJ.Core.Responser
         {
             Message = message;
             Code = 404;
+            status = "error";
         }
 
         /// <summary>
@@ -81,6 +88,7 @@ namespace CJ.Core.Responser
         {
             Message = message;
             Code = 401;
+            status = "error";
         }
 
         /// <summary>

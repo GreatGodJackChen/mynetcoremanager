@@ -31,6 +31,7 @@ namespace CJ.Core.Ftw.jwt
                     var authstr = authValue.ToString().Substring(this._jwtConfig.Prefix.Length, authValue.ToString().Length - this._jwtConfig.Prefix.Length);
                     if (this._jwt.ValidateToken(authstr, out Dictionary<string, string> Clims))
                     {
+                        //判断是否有权限操作
                         foreach (var item in Clims)
                         {
                             context.HttpContext.Items.Add(item.Key, item.Value);

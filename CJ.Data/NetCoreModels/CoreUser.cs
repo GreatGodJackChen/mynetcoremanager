@@ -6,7 +6,7 @@ namespace CJ.Data.NetCoreModels
 {
     public partial class CoreUser: Entity
     {
-        //public string Id { get; set; }
+       // public string Id { get; set; }
         public string LoginName { get; set; }
         public string DisplayName { get; set; }
         public string Password { get; set; }

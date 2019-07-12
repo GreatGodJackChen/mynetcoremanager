@@ -10,12 +10,15 @@ namespace CJ.Application
 {
     public static class AppServiceCollectionExtensions
     {
-        public static void  AddAppService(this IServiceCollection services, ContainerBuilder containerBuilder)
+        public static void AddAppService(this IServiceCollection services, ContainerBuilder containerBuilder)
         {
             Assembly dataAccess = Assembly.Load("CJ.Application");
             containerBuilder.RegisterAssemblyTypes(dataAccess, dataAccess)
-                .Where(t => t.Name.EndsWith("AppService") || t.Name.EndsWith("App"))
+                .Where(t => t.Name.EndsWith("AppService"))
                 .AsImplementedInterfaces();
+            containerBuilder.RegisterAssemblyTypes(dataAccess, dataAccess)
+              .Where(t => t.Name.EndsWith("App"))
+              .AsImplementedInterfaces();
 
             containerBuilder.RegisterType<TestAutofacAppService>().As<ITestAutofacAppService>().InstancePerLifetimeScope();
         }

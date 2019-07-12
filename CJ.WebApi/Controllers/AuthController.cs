@@ -23,9 +23,14 @@ namespace CJ.WebApi.Controllers
             _userAppService = userAppService;
         }
         [HttpPost]
-        public IActionResult GetToken(CoreUser userInfo)
+        public IActionResult GetToken(User postuser)
         {
             var response = ResponseModelFactory.CreateInstance;
+            var userInfo = new CoreUser
+            {
+                LoginName = postuser.userName,
+                Password = postuser.password
+            };
             var user = _userAppService.GetUser(userInfo);
             if (user!=null)
             {
@@ -38,5 +43,12 @@ namespace CJ.WebApi.Controllers
             response.SetError();
             return Ok(response);
         }
+    }
+    public class User
+    {
+        public string userName { get; set; }
+        public string password { get; set; }
+        public string mobile { get; set; }
+        public string captcha { get; set; }
     }
 }

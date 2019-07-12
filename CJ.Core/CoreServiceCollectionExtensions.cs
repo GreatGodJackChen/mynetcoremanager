@@ -1,5 +1,6 @@
 ﻿using CJ.Core.Caching;
 using CJ.Core.Ftw.jwt;
+using CJ.Core.Middlewares;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +14,7 @@ namespace CJ.Core
             services.AddDistributedRedisCache(option => option.Configuration = redisConnection);
             services.AddTransient<ICacheManager, RedisCacheManager>();
 
+            services.AddTransient<OptionMiddleware>();
             services.AddTransient<AuthActionFilter>();
             services.AddTransient<IJwt, Jwt>();//Jwt注入
         }

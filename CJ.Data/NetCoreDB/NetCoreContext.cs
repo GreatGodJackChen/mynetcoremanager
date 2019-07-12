@@ -23,14 +23,12 @@ namespace CJ.Data.NetCoreModels
 //            if (!optionsBuilder.IsConfigured)
 //            {
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-//                optionsBuilder.UseSqlServer("Server=.;Database=NetCore;uid=sa;pwd=sa_112212");
+//                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=NetCore;User ID=sa;Password=sa_112212;");
 //            }
 //        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
-
             modelBuilder.Entity<CoreMenu>(entity =>
             {
                 entity.Property(e => e.Id)
@@ -42,12 +40,9 @@ namespace CJ.Data.NetCoreModels
 
                 entity.Property(e => e.Component).HasMaxLength(255);
 
-                entity.Property(e => e.Controll)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Controll).HasMaxLength(255);
 
                 entity.Property(e => e.CreatedByUserGuid)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
@@ -62,6 +57,10 @@ namespace CJ.Data.NetCoreModels
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(e => e.ParentGuid)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Path).HasMaxLength(255);
             });
