@@ -1,13 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using CJ.Core.Log4net;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text;
 
-namespace CJ.Core.Ftw.jwt
+namespace CJ.Framwork.Ftw.jwt
 {
     public class Jwt : IJwt
     {
@@ -102,6 +102,7 @@ namespace CJ.Core.Ftw.jwt
             }
             catch (System.Exception ex)
             {
+                MyLogManager.Error(ex.Message,this.GetType());
                 return false;
             }
         }

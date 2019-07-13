@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using CJ.Core.Log4net;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System.Data.SqlClient;
-using CJ.Core.Log4net;
 
-namespace CJ.Core.Exception
+namespace CJ.Framwork.Exception
 {
     public class GlobalExceptionFilter : IExceptionFilter
     {

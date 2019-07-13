@@ -17,8 +17,6 @@ namespace CJ.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private ITestAppService _testAppService;
-        private ITestAutofacAppService _testAutofacAppService;
         private readonly IPersonAppService _personAppService;
         private readonly IAddressAppService _addressAppService;
 

@@ -4,14 +4,13 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CJ.Core.Ftw.jwt
+namespace CJ.Framwork.Ftw.jwt
 {
     public class UseJwtMiddleware
     {
         private readonly RequestDelegate _next;
         private JwtConfig _jwtConfig = new JwtConfig();
         private IJwt _jwt;
-        private readonly IConfiguration _configration;
         public UseJwtMiddleware(RequestDelegate next, IConfiguration configration, IJwt jwt)
         {
             _next = next;

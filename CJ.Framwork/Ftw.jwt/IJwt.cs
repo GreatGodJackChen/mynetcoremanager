@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CJ.Core.Ftw.jwt
+namespace CJ.Framwork.Ftw.jwt
 {
     public interface IJwt
     {

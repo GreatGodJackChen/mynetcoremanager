@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CJ.Core.Exception
+namespace CJ.Framwork.Exception
 {
     public class ApplicationErrorResult:ObjectResult
     {

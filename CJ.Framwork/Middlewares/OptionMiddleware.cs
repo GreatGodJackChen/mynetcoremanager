@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace CJ.Core.Middlewares
+namespace CJ.Framwork.Middlewares
 {
     public class OptionMiddleware
     {
@@ -17,7 +14,8 @@ namespace CJ.Core.Middlewares
         public async Task InvokeAsync(HttpContext context)
         {
             context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-            context.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
+            context.Response.Headers.Add("Access-Control-Allow-Headers", "*");
+            //context.Response.Headers.Add("Access-Control-Allow-Headers", "useless");
             if (context.Request.Method.ToUpper() == "OPTIONS")
             {
                 context.Response.StatusCode = 200;

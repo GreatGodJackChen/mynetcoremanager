@@ -20,6 +20,7 @@ namespace CJ.WebApi.Controllers.Api.v1
         [HttpGet]
         public IActionResult Menu()
         {
+            var id = HttpContext.Items["userId"];
             var menus = _menuApp.GetMenus();
             return Ok(menus);
         }

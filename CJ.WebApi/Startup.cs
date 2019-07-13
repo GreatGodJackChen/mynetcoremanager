@@ -1,26 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using CJ.Application;
 using CJ.Core;
-using CJ.Core.Exception;
-using CJ.Core.Ftw.jwt;
-using CJ.Core.Middlewares;
 using CJ.Data;
 using CJ.Domain;
+using CJ.Framwork;
+using CJ.Framwork.Exception;
+using CJ.Framwork.Ftw.jwt;
+using CJ.Framwork.Middlewares;
 using CJ.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace CJ.WebApi
 {
@@ -65,6 +60,7 @@ namespace CJ.WebApi
             } ).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCore(Configuration);
             services.AddUow();
+            services.AddFramork(Configuration);
             services.AddBaseReposity(Configuration);
             services.AddAllDbContext(Configuration);
             //Autofac容器

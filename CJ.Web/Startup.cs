@@ -1,11 +1,7 @@
-﻿using AspectCore.Configuration;
-using AspectCore.Extensions.DependencyInjection;
-using CJ.Application;
+﻿using CJ.Application;
 using CJ.Application.Test;
-using CJ.Core.Exception;
 using CJ.Domain;
 using CJ.Repositories;
-using CJ.Repositories.Interceptor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,7 +35,7 @@ namespace CJ.Web
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddMvc(o => o.Filters.Add<GlobalExceptionFilter>()).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //services.AddMvc(o => o.Filters.Add<GlobalExceptionFilter>()).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCore(Configuration);
             services.AddScoped<ITestAppService, TestAppService>();
             services.AddTransient(typeof(IFxTest<>), typeof(FxTest<,>));

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CJ.Core.Ftw.jwt
+namespace CJ.Framwork.Ftw.jwt
 {
     public class AuthActionFilter : IAsyncActionFilter
     {
