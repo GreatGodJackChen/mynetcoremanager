@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.Data.Common;
 
 namespace CJ.Repositories.BaseRepositories
 {
@@ -245,6 +245,36 @@ namespace CJ.Repositories.BaseRepositories
             var lambdaBody = Expression.Equal(leftExpression, rightExpression);
 
             return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
+        }
+
+        public virtual Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int pageSize, Expression<Func<TEntity, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int pageSize, string strSql, params DbParameter[] dbParameter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual PaginatedList<TEntity> FindListPage(int? pageIndex, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual PaginatedList<TEntity> FindListPage(int? pageIndex, int pageSize, Expression<Func<TEntity, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual PaginatedList<TEntity> FindListPage(int? pageIndex, int pageSize, string strSql, params DbParameter[] dbParameter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -37,7 +37,7 @@ namespace CJ.Data
 
             var NetCoreConn = configuration["ConnectionStrings:NetCore"];
             var NetCoreOptions = new DbContextOptionsBuilder<NetCoreContext>()
-                .UseSqlServer(NetCoreConn)
+                .UseSqlServer(NetCoreConn, b => b.UseRowNumberForPaging())
                 .UseLoggerFactory(LoggerFactory)
                 .Options;
             services.AddSingleton(NetCoreOptions).AddTransient(typeof(NetCoreContext));

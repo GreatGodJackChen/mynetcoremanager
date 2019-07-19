@@ -20,5 +20,6 @@ namespace CJ.Entities.MenuEntity
 
         public int? Sort { get; set; }
         public List<MenuEntity> Children { get; set; }
+        public string key { get; set; }
     }
 }

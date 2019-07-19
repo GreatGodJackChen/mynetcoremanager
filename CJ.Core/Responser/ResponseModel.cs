@@ -87,7 +87,7 @@ namespace CJ.Core.Responser
         public void SetNoPermission(string message = "无权限")
         {
             Message = message;
-            Code = 401;
+            Code = 403;
             status = "error";
         }
 

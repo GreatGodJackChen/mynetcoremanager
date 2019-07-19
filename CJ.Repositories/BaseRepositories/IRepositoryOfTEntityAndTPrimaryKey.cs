@@ -1,9 +1,9 @@
 ﻿using Cj.Entities.BaseEntity;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CJ.Repositories.BaseRepositories
@@ -324,6 +324,15 @@ namespace CJ.Repositories.BaseRepositories
         /// <returns>Count of entities</returns>
         Task<long> LongCountAsync(Expression<Func<TEntity, bool>> predicate);
 
+        #endregion
+
+        #region Paginate
+        Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int pageSize);
+        Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int pageSize, Expression<Func<TEntity, bool>> predicate);
+        Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int pageSize, string strSql, params DbParameter[] dbParameter);
+        PaginatedList<TEntity> FindListPage(int? pageIndex, int pageSize);
+        PaginatedList<TEntity> FindListPage(int? pageIndex, int pageSize, Expression<Func<TEntity, bool>> predicate);
+        PaginatedList<TEntity> FindListPage(int? pageIndex, int pageSize, string strSql, params DbParameter[] dbParameter); 
         #endregion
     }
 }

@@ -28,7 +28,7 @@ namespace CJ.WebApi.Controllers.Api.v1
         }
 
         // GET: api/User/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet]
         public string Get(int id)
         {
             return "value";

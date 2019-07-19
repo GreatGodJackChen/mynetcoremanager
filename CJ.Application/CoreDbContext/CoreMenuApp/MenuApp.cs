@@ -26,13 +26,13 @@ namespace CJ.Application.CoreDbContext.CoreMenuApp
                 Icon = p.Icon,
                 Component = p.Component,
                 Level = p.Level,
-                Sort = p.Sort
+                Sort = p.Sort,
             }).ToList();
             var Rootnode = newmenus.Where(x => string.IsNullOrEmpty(x.ParentId)).OrderBy(x => x.Sort).ToList();
             foreach (var menu in Rootnode)
             {
                 BuildMenuTree(menu, 0, newmenus);
-                BuildMenu(menu);
+                //BuildMenu(menu);
             }
 
             return Rootnode;

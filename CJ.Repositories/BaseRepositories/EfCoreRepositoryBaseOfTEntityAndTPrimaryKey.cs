@@ -9,7 +9,6 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -84,7 +83,7 @@ namespace CJ.Repositories.BaseRepositories
 
         public override IQueryable<TEntity> GetAllIncluding(params Expression<Func<TEntity, object>>[] propertySelectors)
         {
-            var query = GetQueryable().AsNoTracking();
+            var query = GetQueryable();
 
             if (!propertySelectors.Any())
             {
@@ -99,12 +98,12 @@ namespace CJ.Repositories.BaseRepositories
 
         public override async Task<List<TEntity>> GetAllListAsync()
         {
-            return await GetAll().AsNoTracking().ToListAsync();
+            return await GetAll().ToListAsync();
         }
 
         public override async Task<List<TEntity>> GetAllListAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await GetAll().Where(predicate).AsNoTracking().ToListAsync();
+            return await GetAll().Where(predicate).ToListAsync();
         }
 
         public override async Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate)
@@ -291,6 +290,46 @@ namespace CJ.Repositories.BaseRepositories
                 return true;
             }
             return false;
+        }
+        public override async Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int pageSize)
+        {
+            var entityIq = Context.Set<TEntity>();
+            return await PaginatedList<TEntity>.CreatePageAsync(entityIq, pageIndex ?? 1, pageSize);
+        }
+        public override async Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int pageSize, Expression<Func<TEntity, bool>> predicate) 
+        {
+            IQueryable<TEntity> entityIq = GetAll().Where(predicate);
+            return await PaginatedList<TEntity>.CreatePageAsync(entityIq, pageIndex ?? 1, pageSize);
+        }
+        public override async Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int pageSize, string strSql, params DbParameter[] dbParameter) 
+        {
+            IQueryable<TEntity> entityIq;
+            if (dbParameter.Any())
+            {
+                entityIq = GetAll().FromSql(strSql, dbParameter);
+            }
+            entityIq = GetAll().FromSql(strSql);
+            return await PaginatedList<TEntity>.CreatePageAsync(entityIq, pageIndex ?? 1, pageSize);
+        }
+        public override PaginatedList<TEntity> FindListPage(int? pageIndex, int pageSize) 
+        {
+            IQueryable<TEntity> entityIq = GetAll();
+            return PaginatedList<TEntity>.CreatePage(entityIq, pageIndex ?? 1, pageSize);
+        }
+        public override PaginatedList<TEntity> FindListPage(int? pageIndex, int pageSize, Expression<Func<TEntity, bool>> predicate)
+        {
+            IQueryable<TEntity> entityIq = GetAll().Where(predicate);
+            return PaginatedList<TEntity>.CreatePage(entityIq, pageIndex ?? 1, pageSize);
+        }
+        public override PaginatedList<TEntity> FindListPage(int? pageIndex, int pageSize, string strSql, params DbParameter[] dbParameter) 
+        {
+            IQueryable<TEntity> entityIq;
+            if (dbParameter.Any())
+            {
+                entityIq = GetAll().FromSql(strSql, dbParameter);
+            }
+            entityIq = GetAll().FromSql(strSql);
+            return PaginatedList<TEntity>.CreatePage(entityIq, pageIndex ?? 1, pageSize);
         }
     }
 }

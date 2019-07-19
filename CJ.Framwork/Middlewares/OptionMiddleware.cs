@@ -12,9 +12,11 @@ namespace CJ.Framwork.Middlewares
             _next = next;
         }
         public async Task InvokeAsync(HttpContext context)
+
         {
             context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-            context.Response.Headers.Add("Access-Control-Allow-Headers", "*");
+            context.Response.Headers.Add("Access-Control-Allow-Headers", "content-type,x-requested-with,useless");
+            context.Response.Headers.Add("Access-Control-Allow-Methods", "OPTIONS, POST, GET");
             //context.Response.Headers.Add("Access-Control-Allow-Headers", "useless");
             if (context.Request.Method.ToUpper() == "OPTIONS")
             {
