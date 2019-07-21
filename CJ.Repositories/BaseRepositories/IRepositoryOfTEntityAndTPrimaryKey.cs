@@ -327,12 +327,12 @@ namespace CJ.Repositories.BaseRepositories
         #endregion
 
         #region Paginate
-        Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int pageSize);
-        Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int pageSize, Expression<Func<TEntity, bool>> predicate);
-        Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int pageSize, string strSql, params DbParameter[] dbParameter);
-        PaginatedList<TEntity> FindListPage(int? pageIndex, int pageSize);
-        PaginatedList<TEntity> FindListPage(int? pageIndex, int pageSize, Expression<Func<TEntity, bool>> predicate);
-        PaginatedList<TEntity> FindListPage(int? pageIndex, int pageSize, string strSql, params DbParameter[] dbParameter); 
+        Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int? pageSize);
+        Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int? pageSize, Expression<Func<TEntity, bool>> predicate);
+        Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int? pageSize, string strSql, params DbParameter[] dbParameter);
+        PaginatedList<TEntity> FindListPage(int? pageIndex, int? pageSize);
+        PaginatedList<TEntity> FindListPage(int? pageIndex, int? pageSize, Expression<Func<TEntity, bool>> predicate);
+        PaginatedList<TEntity> FindListPage(int? pageIndex, int? pageSize, string strSql, params DbParameter[] dbParameter); 
         #endregion
     }
 }

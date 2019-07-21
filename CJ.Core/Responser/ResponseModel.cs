@@ -1,7 +1,10 @@
 ﻿
+using System.IO;
+using System.Text;
+
 namespace CJ.Core.Responser
 {
-    public class ResponseModel 
+    public class ResponseModel
     {
         /// <summary>
         /// 请求响应实体类
@@ -25,6 +28,8 @@ namespace CJ.Core.Responser
         /// 返回的响应数据
         /// </summary>
         public object Data { get; set; }
+
+        public object Pagination { get; set; }
 
         /// <summary>
         /// 设置响应状态为成功
@@ -98,6 +103,19 @@ namespace CJ.Core.Responser
         public void SetData(object data)
         {
             Data = data;
+        }
+        public void SetPagination(object pagination)
+        {
+            Pagination = pagination;
+        }
+        public async System.Threading.Tasks.Task<string> GetRequestAsync(Stream stream)
+        {
+            var result = string.Empty;
+            using (var reader = new StreamReader(stream, Encoding.UTF8))
+            {
+                result = await reader.ReadToEndAsync();
+            }
+            return result;
         }
     }
 }

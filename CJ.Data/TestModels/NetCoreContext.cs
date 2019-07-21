@@ -75,7 +75,7 @@ namespace CJ.Data.TestModels
                 entity.Property(e => e.Id)
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .ValueGeneratedNever();
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.ActionCode)
                     .IsRequired()
@@ -83,7 +83,6 @@ namespace CJ.Data.TestModels
                     .IsUnicode(false);
 
                 entity.Property(e => e.CreatedByUserId)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
@@ -96,6 +95,8 @@ namespace CJ.Data.TestModels
                 entity.Property(e => e.Icon)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.IsDeleted).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.MenuId)
                     .IsRequired()
@@ -114,6 +115,10 @@ namespace CJ.Data.TestModels
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Type).HasDefaultValueSql("((0))");
             });
 
             modelBuilder.Entity<CoreUser>(entity =>

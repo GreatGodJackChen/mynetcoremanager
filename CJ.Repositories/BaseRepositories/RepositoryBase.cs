@@ -247,32 +247,32 @@ namespace CJ.Repositories.BaseRepositories
             return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
         }
 
-        public virtual Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int pageSize)
+        public virtual Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int? pageSize)
         {
             throw new NotImplementedException();
         }
 
-        public virtual Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int pageSize, Expression<Func<TEntity, bool>> predicate)
+        public virtual Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int? pageSize, Expression<Func<TEntity, bool>> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public virtual Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int pageSize, string strSql, params DbParameter[] dbParameter)
+        public virtual Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int? pageSize, string strSql, params DbParameter[] dbParameter)
         {
             throw new NotImplementedException();
         }
 
-        public virtual PaginatedList<TEntity> FindListPage(int? pageIndex, int pageSize)
+        public virtual PaginatedList<TEntity> FindListPage(int? pageIndex, int? pageSize)
         {
             throw new NotImplementedException();
         }
 
-        public virtual PaginatedList<TEntity> FindListPage(int? pageIndex, int pageSize, Expression<Func<TEntity, bool>> predicate)
+        public virtual PaginatedList<TEntity> FindListPage(int? pageIndex, int? pageSize, Expression<Func<TEntity, bool>> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public virtual PaginatedList<TEntity> FindListPage(int? pageIndex, int pageSize, string strSql, params DbParameter[] dbParameter)
+        public virtual PaginatedList<TEntity> FindListPage(int? pageIndex, int? pageSize, string strSql, params DbParameter[] dbParameter)
         {
             throw new NotImplementedException();
         }

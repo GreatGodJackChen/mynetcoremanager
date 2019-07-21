@@ -7,20 +7,33 @@ using System.Threading.Tasks;
 
 namespace CJ.Repositories.BaseRepositories
 {
+    public class Pagination
+    {
+        public int Total { get; set; }
+
+        public int PageSize { get; set; }
+        public int Current { get; set; }
+        public Pagination(int total, int pageSize, int current)
+        {
+            Total = total;
+            PageSize = pageSize;
+            Current = current;
+        }
+    }
     public class PaginatedList<TEntity> : List<TEntity>
     {
         public int PageIndex { get; set; }
         public int TotalPages { get; set; }
         public int PageSize { get; set; }
         public int TotalCount { get; set; }
-
+        public Pagination Pagination { get; set; }
         public PaginatedList(List<TEntity> items, int count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             TotalCount = count;
             PageSize = pageSize;
-
+            Pagination = new Pagination(count, pageSize, pageIndex);
             this.AddRange(items);
         }
         public bool HasPreviousPage
@@ -39,15 +52,19 @@ namespace CJ.Repositories.BaseRepositories
             }
         }
         public static async Task<PaginatedList<TEntity>> CreatePageAsync(
-            IQueryable<TEntity> source, int pageIndex, int pageSize)
+            IQueryable<TEntity> source, int? pageIndex, int? pageSize)
         {
             try
             {
+                pageIndex = pageIndex ?? 1;
+                pageSize = pageSize ?? 10;
+                pageIndex = pageIndex == 0 ? 1 : pageIndex;
+                pageSize = pageSize == 0 ? 10 : pageSize;
                 var count = await source.CountAsync();
                 var items = await source.Skip(
-                        (pageIndex - 1) * pageSize)
-                    .Take(pageSize).ToListAsync();
-                return new PaginatedList<TEntity>(items, count, pageIndex, pageSize);
+                        (pageIndex??1 - 1) * pageSize??10)
+                    .Take(pageSize??10).ToListAsync();
+                return new PaginatedList<TEntity>(items, count, pageIndex??1, pageSize??10);
             }
             catch (Exception e)
             {
@@ -57,16 +74,19 @@ namespace CJ.Repositories.BaseRepositories
 
         }
         public static PaginatedList<TEntity> CreatePage(
-            IQueryable<TEntity> source, int pageIndex, int pageSize)
+            IQueryable<TEntity> source, int? pageIndex, int? pageSize)
         {
             try
             {
+                pageIndex = pageIndex ?? 1;
+                pageSize = pageSize ?? 10;
+                pageIndex = pageIndex == 0 ? 1 : pageIndex;
+                pageSize = pageSize == 0 ? 10 : pageSize;
                 var count = source.Count();
-                var aa = source.Skip(
-                        (pageIndex - 1) * pageSize)
-                    .Take(pageSize);
-                var items = aa.ToList();
-                return new PaginatedList<TEntity>(items, count, pageIndex, pageSize);
+                var items = source.Skip(
+                        ((pageIndex??1) - 1) * pageSize??10)
+                    .Take(pageSize??10).ToList();
+                return new PaginatedList<TEntity>(items, count, pageIndex??1, pageSize??10);
             }
             catch (Exception e)
             {
