@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -51,8 +52,8 @@ namespace CJ.Repositories.BaseRepositories
                 return (PageIndex < TotalPages);
             }
         }
-        public static async Task<PaginatedList<TEntity>> CreatePageAsync(
-            IQueryable<TEntity> source, int? pageIndex, int? pageSize)
+        public static async Task<PaginatedList<TEntity>> CreatePageAsync<TOrderBy>(
+            IQueryable<TEntity> source, int? pageIndex, int? pageSize, Expression<Func<TEntity, TOrderBy>> orderby,bool IsAsc)
         {
             try
             {
@@ -60,11 +61,16 @@ namespace CJ.Repositories.BaseRepositories
                 pageSize = pageSize ?? 10;
                 pageIndex = pageIndex == 0 ? 1 : pageIndex;
                 pageSize = pageSize == 0 ? 10 : pageSize;
-                var count = await source.CountAsync();
-                var items = await source.Skip(
+                var items = source;
+                if (orderby != null)
+                {
+                    items = IsAsc ? items.OrderByDescending(orderby) : items.OrderBy(orderby);
+                }
+                var count = await items.CountAsync();
+                var list = await items.Skip(
                         (pageIndex??1 - 1) * pageSize??10)
                     .Take(pageSize??10).ToListAsync();
-                return new PaginatedList<TEntity>(items, count, pageIndex??1, pageSize??10);
+                return new PaginatedList<TEntity>(list, count, pageIndex??1, pageSize??10);
             }
             catch (Exception e)
             {
@@ -73,8 +79,8 @@ namespace CJ.Repositories.BaseRepositories
             }
 
         }
-        public static PaginatedList<TEntity> CreatePage(
-            IQueryable<TEntity> source, int? pageIndex, int? pageSize)
+        public static PaginatedList<TEntity> CreatePage<TOrderBy>(
+            IQueryable<TEntity> source, int? pageIndex, int? pageSize, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc)
         {
             try
             {
@@ -82,11 +88,16 @@ namespace CJ.Repositories.BaseRepositories
                 pageSize = pageSize ?? 10;
                 pageIndex = pageIndex == 0 ? 1 : pageIndex;
                 pageSize = pageSize == 0 ? 10 : pageSize;
-                var count = source.Count();
-                var items = source.Skip(
+                var items = source;
+                if (orderby != null)
+                {
+                    items = IsAsc ? items.OrderByDescending(orderby) : items.OrderBy(orderby);
+                }
+                var count = items.Count();
+                var list = items.Skip(
                         ((pageIndex??1) - 1) * pageSize??10)
                     .Take(pageSize??10).ToList();
-                return new PaginatedList<TEntity>(items, count, pageIndex??1, pageSize??10);
+                return new PaginatedList<TEntity>(list, count, pageIndex??1, pageSize??10);
             }
             catch (Exception e)
             {

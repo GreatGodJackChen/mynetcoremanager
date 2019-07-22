@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using CJ.Application.CoreDbContext.CorePermissionApp;
+using CJ.Core.ExpressionHelper;
 using CJ.Core.Responser;
 using CJ.Data.NetCoreModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Newtonsoft.Json;
 
 namespace CJ.WebApi.Controllers.Api.v1
@@ -31,7 +26,7 @@ namespace CJ.WebApi.Controllers.Api.v1
             var response = ResponseModelFactory.CreateInstance;
             //var request = Request.Query["paramsInfo"];
             //var dic = JsonConvert.DeserializeObject<Dictionary<string, object>>(request);
-            Expression<Func<CorePermission, bool>> where = f => 1 == 1;
+            var predicate = ExpressionBuilder.True<CorePermission>();
             //int currentPage = 0; int pageSize = 0;
             //if (dic!=null)
             //{
@@ -50,9 +45,10 @@ namespace CJ.WebApi.Controllers.Api.v1
             //}
             if (!string.IsNullOrEmpty(name))
             {
-                where = f => f.Name.Contains(name);
+                predicate = predicate.And(f => f.Name.Contains(name));
             }
-            var list = _permissionAppService.GetList(currentPage, pageSize, where);
+            Expression<Func<CorePermission, DateTime?>> orderby = f => f.CreatedTime;
+            var list = _permissionAppService.GetList(currentPage, pageSize, predicate, orderby);
             response.SetData(list);
             response.SetPagination(list.Pagination);
             return Ok(response);
@@ -75,8 +71,9 @@ namespace CJ.WebApi.Controllers.Api.v1
             var result = response.GetRequestAsync(Request.Body).Result;
             var dic = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
             var request = _permissionAppService.AddPermission(dic);
-            Expression<Func<CorePermission, bool>> where = f => 1 == 1;
-            var list = _permissionAppService.GetList(currentPage, pageSize, where);
+            var predicate = ExpressionBuilder.True<CorePermission>();
+            Expression<Func<CorePermission, DateTime?>> orderby = f=>f.CreatedTime;
+            var list = _permissionAppService.GetList(currentPage, pageSize, predicate, orderby);
             response.SetData(list);
             response.SetPagination(list.Pagination);
 
@@ -90,21 +87,29 @@ namespace CJ.WebApi.Controllers.Api.v1
         }
 
         // PUT: api/Permission/5
-        [HttpPost("updateRule")]
+        [HttpPost("updatePermission")]
         public IActionResult Update(int currentPage, int pageSize)
         {
             var response = ResponseModelFactory.CreateInstance;
             var result = response.GetRequestAsync(Request.Body).Result;
             var dic = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
-           // var request = _permissionAppService.AddPermission(dic);
-            Expression<Func<CorePermission, bool>> where = f => 1 == 1;
-            var list = _permissionAppService.GetList(currentPage, pageSize, where);
+            CorePermission permission = new CorePermission()
+            {
+                Name = dic["Name"],
+                MenuId = dic["MenuId"],
+                ActionCode = dic["ActionCode"],
+                Id = dic["Id"],
+            };
+            Expression<Func<CorePermission, DateTime?>> orderby = f => f.CreatedTime;
+            var predicate = ExpressionBuilder.True<CorePermission>();
+            var list = _permissionAppService.Update(currentPage,pageSize, predicate, permission, orderby);
+            //var list = _permissionAppService.GetList(currentPage, pageSize, where);
             response.SetData(list);
             response.SetPagination(list.Pagination);
 
             if (string.IsNullOrEmpty(result))
             {
-                response.SetError("新建失败");
+                response.SetError("更新失败");
             }
             return Ok(response);
             //var dic = JsonConvert.DeserializeObject<Dictionary<string, object>>(permission);
@@ -122,9 +127,18 @@ namespace CJ.WebApi.Controllers.Api.v1
         //}
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("deletePermission")]
+        public IActionResult Delete(int currentPage, int pageSize)
         {
+            var response = ResponseModelFactory.CreateInstance;
+            var result = response.GetRequestAsync(Request.Body).Result;
+            var dic = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(result);
+            string[] strId = dic!=null?dic["key"]:new string[] { };
+            Expression<Func<CorePermission, DateTime?>> orderby = f => f.CreatedTime;
+            var list=  _permissionAppService.Delete(currentPage, pageSize, strId, orderby);
+            response.SetData(list);
+            response.SetPagination(list.Pagination);
+            return Ok(response);
         }
     }
 }

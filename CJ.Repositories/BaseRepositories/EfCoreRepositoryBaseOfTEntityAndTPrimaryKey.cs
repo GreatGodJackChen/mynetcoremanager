@@ -291,17 +291,17 @@ namespace CJ.Repositories.BaseRepositories
             }
             return false;
         }
-        public override async Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int? pageSize)
+        public override async Task<PaginatedList<TEntity>> FindListPageAsync<TOrderBy>(int? pageIndex, int? pageSize, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc=true)
         {
             var entityIq = Context.Set<TEntity>();
-            return await PaginatedList<TEntity>.CreatePageAsync(entityIq, pageIndex ?? 1, pageSize ?? 20);
+            return await PaginatedList<TEntity>.CreatePageAsync(entityIq, pageIndex ?? 1, pageSize ?? 10,orderby, IsAsc);
         }
-        public override async Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int? pageSize, Expression<Func<TEntity, bool>> predicate) 
+        public override async Task<PaginatedList<TEntity>> FindListPageAsync<TOrderBy>(int? pageIndex, int? pageSize, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TOrderBy>> orderby,bool IsAsc = true) 
         {
             IQueryable<TEntity> entityIq = GetAll().Where(predicate);
-            return await PaginatedList<TEntity>.CreatePageAsync(entityIq, pageIndex ?? 1, pageSize ?? 20);
+            return await PaginatedList<TEntity>.CreatePageAsync(entityIq, pageIndex ?? 1, pageSize ?? 10, orderby, IsAsc);
         }
-        public override async Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int? pageSize, string strSql, params DbParameter[] dbParameter) 
+        public override async Task<PaginatedList<TEntity>> FindListPageAsync<TOrderBy>(int? pageIndex, int? pageSize, string strSql, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc = true, params DbParameter[] dbParameter) 
         {
             IQueryable<TEntity> entityIq;
             if (dbParameter.Any())
@@ -309,19 +309,19 @@ namespace CJ.Repositories.BaseRepositories
                 entityIq = GetAll().FromSql(strSql, dbParameter);
             }
             entityIq = GetAll().FromSql(strSql);
-            return await PaginatedList<TEntity>.CreatePageAsync(entityIq, pageIndex ?? 1, pageSize ?? 10);
+            return await PaginatedList<TEntity>.CreatePageAsync(entityIq, pageIndex ?? 1, pageSize ?? 10,orderby, IsAsc);
         }
-        public override PaginatedList<TEntity> FindListPage(int? pageIndex, int? pageSize) 
+        public override PaginatedList<TEntity> FindListPage<TOrderBy>(int? pageIndex, int? pageSize, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc = true)
         {
             IQueryable<TEntity> entityIq = GetAll();
-            return PaginatedList<TEntity>.CreatePage(entityIq, pageIndex ?? 1, pageSize ??20);
+            return PaginatedList<TEntity>.CreatePage(entityIq, pageIndex ?? 1, pageSize ?? 10, orderby, IsAsc);
         }
-        public override PaginatedList<TEntity> FindListPage(int? pageIndex, int? pageSize, Expression<Func<TEntity, bool>> predicate)
+        public override PaginatedList<TEntity> FindListPage<TOrderBy>(int? pageIndex, int? pageSize, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc = true)
         {
             IQueryable<TEntity> entityIq = GetAll().Where(predicate);
-            return PaginatedList<TEntity>.CreatePage(entityIq, pageIndex ?? 1, pageSize ?? 20);
+            return PaginatedList<TEntity>.CreatePage(entityIq, pageIndex ?? 1, pageSize ?? 10, orderby, IsAsc);
         }
-        public override PaginatedList<TEntity> FindListPage(int? pageIndex, int? pageSize, string strSql, params DbParameter[] dbParameter) 
+        public override PaginatedList<TEntity> FindListPage<TOrderBy>(int? pageIndex, int? pageSize, string strSql, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc = true, params DbParameter[] dbParameter) 
         {
             IQueryable<TEntity> entityIq;
             if (dbParameter.Any())
@@ -329,7 +329,28 @@ namespace CJ.Repositories.BaseRepositories
                 entityIq = GetAll().FromSql(strSql, dbParameter);
             }
             entityIq = GetAll().FromSql(strSql);
-            return PaginatedList<TEntity>.CreatePage(entityIq, pageIndex ?? 1, pageSize ?? 20);
+            return PaginatedList<TEntity>.CreatePage(entityIq, pageIndex ?? 1, pageSize ?? 10,orderby, IsAsc);
+        }
+        public override void UpdateColumn(TEntity entity, Expression<Func<TEntity, bool>> predicate, params string[] excludeColumnNames)
+        {
+            var entry = Context.Entry(entity);
+            entry.State = EntityState.Modified;
+            //指定更新某列
+            if (excludeColumnNames.Any())
+            {
+                foreach (var property in entry.OriginalValues.Properties)
+                {
+                    foreach (var columnName in excludeColumnNames)
+                    {
+                        if (!property.Name.Equals(columnName, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            entry.Property(property.Name).IsModified = false;
+                            break;
+                        }
+                    }
+                }
+            }
+           //Table.Update(entity);
         }
     }
 }

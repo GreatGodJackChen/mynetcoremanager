@@ -247,34 +247,41 @@ namespace CJ.Repositories.BaseRepositories
             return Expression.Lambda<Func<TEntity, bool>>(lambdaBody, lambdaParam);
         }
 
-        public virtual Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int? pageSize)
+        public virtual Task<PaginatedList<TEntity>> FindListPageAsync<TOrderBy>(int? pageIndex, int? pageSize, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc)
         {
             throw new NotImplementedException();
         }
 
-        public virtual Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int? pageSize, Expression<Func<TEntity, bool>> predicate)
+        public virtual Task<PaginatedList<TEntity>> FindListPageAsync<TOrderBy>(int? pageIndex, int? pageSize, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc)
         {
             throw new NotImplementedException();
         }
 
-        public virtual Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int? pageSize, string strSql, params DbParameter[] dbParameter)
+        public virtual Task<PaginatedList<TEntity>> FindListPageAsync<TOrderBy>(int? pageIndex, int? pageSize, string strSql, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc, params DbParameter[] dbParameter)
         {
             throw new NotImplementedException();
         }
 
-        public virtual PaginatedList<TEntity> FindListPage(int? pageIndex, int? pageSize)
+        public virtual PaginatedList<TEntity> FindListPage<TOrderBy>(int? pageIndex, int? pageSize, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc)
         {
             throw new NotImplementedException();
         }
 
-        public virtual PaginatedList<TEntity> FindListPage(int? pageIndex, int? pageSize, Expression<Func<TEntity, bool>> predicate)
+        public virtual PaginatedList<TEntity> FindListPage<TOrderBy>(int? pageIndex, int? pageSize, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc)
         {
             throw new NotImplementedException();
         }
 
-        public virtual PaginatedList<TEntity> FindListPage(int? pageIndex, int? pageSize, string strSql, params DbParameter[] dbParameter)
+        public virtual PaginatedList<TEntity> FindListPage<TOrderBy>(int? pageIndex, int? pageSize, string strSql, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc, params DbParameter[] dbParameter)
         {
             throw new NotImplementedException();
         }
+
+        public virtual void UpdateColumn(TEntity entity, Expression<Func<TEntity, bool>> predicate, params string[] excludeColumnNames)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

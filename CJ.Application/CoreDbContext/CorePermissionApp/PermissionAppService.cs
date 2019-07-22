@@ -26,9 +26,24 @@ namespace CJ.Application.CoreDbContext.CorePermissionApp
             var result = _repository.InsertAndGetId(permission);
             return result;
         }
-        public PaginatedList<CorePermission> GetList(int currentPage,int pageSize, Expression<Func<CorePermission, bool>> where)
+        public PaginatedList<CorePermission> GetList(int currentPage,int pageSize, Expression<Func<CorePermission, bool>> predicate, Expression<Func<CorePermission, DateTime?>> orderby)
         {
-            var result = _repository.FindListPage(currentPage, pageSize,where);
+            var result = _repository.FindListPage(currentPage, pageSize, predicate, orderby,true);
+            return result;
+        }
+        public PaginatedList<CorePermission> Update(int currentPage, int pageSize, Expression<Func<CorePermission, bool>> where, CorePermission permission, Expression<Func<CorePermission, DateTime?>> orderby)
+        {
+            _repository.UpdateColumn(permission, null,new string[] { "Name","MenuId", "ActionCode" });
+            var result = _repository.FindListPage(currentPage, pageSize, orderby, true);
+            return result;
+        }
+        public PaginatedList<CorePermission> Delete(int currentPage, int pageSize, string[] strId, Expression<Func<CorePermission, DateTime?>> orderby)
+        {
+            foreach (var id in strId)
+            {
+                _repository.Delete(id);
+            }
+            var result = _repository.FindListPage(currentPage, pageSize, orderby, true);
             return result;
         }
     }
