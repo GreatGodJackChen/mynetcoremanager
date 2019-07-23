@@ -1,4 +1,5 @@
 ﻿using CJ.Data.NetCoreModels;
+using CJ.Entities.NetCore;
 using CJ.Repositories.BaseRepositories;
 using System;
 using System.Collections.Generic;
@@ -9,8 +10,8 @@ namespace CJ.Application.CoreDbContext.CorePermissionApp
     public interface IPermissionAppService
     {
         string AddPermission(Dictionary<string, string> dic);
-        PaginatedList<CorePermission> GetList(int currentPage, int pageSize, Expression<Func<CorePermission, bool>> predicate, Expression<Func<CorePermission, DateTime?>> orderby);
-        PaginatedList<CorePermission> Update(int currentPage, int pageSize, Expression<Func<CorePermission, bool>> predicate, CorePermission permission, Expression<Func<CorePermission, DateTime?>> orderby);
-        PaginatedList<CorePermission> Delete(int currentPage, int pageSize,  string[] strId, Expression<Func<CorePermission, DateTime?>> orderby);
+        PaginatedList<PermissionEntity> GetList(int currentPage, int pageSize, Expression<Func<PermissionEntity, bool>> predicate);
+        PaginatedList<PermissionEntity> Update(int currentPage, int pageSize, Expression<Func<PermissionEntity, bool>> predicate, CorePermission permission);
+        PaginatedList<CorePermission> Delete(int currentPage, int pageSize,  string[] strId);
     }
 }

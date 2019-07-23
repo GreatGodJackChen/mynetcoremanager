@@ -1,4 +1,4 @@
-﻿using Cj.Entities.BaseEntity;
+﻿using CJ.Data.BaseEntity;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -327,12 +327,9 @@ namespace CJ.Repositories.BaseRepositories
         #endregion
 
         #region Paginate
-        Task<PaginatedList<TEntity>> FindListPageAsync<TOrderBy>(int? pageIndex, int? pageSize, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc);
-        Task<PaginatedList<TEntity>> FindListPageAsync<TOrderBy>(int? pageIndex, int? pageSize, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc);
-        Task<PaginatedList<TEntity>> FindListPageAsync<TOrderBy>(int? pageIndex, int? pageSize, string strSql, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc, params DbParameter[] dbParameter);
-        PaginatedList<TEntity> FindListPage<TOrderBy>(int? pageIndex, int? pageSize, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc);
-        PaginatedList<TEntity> FindListPage<TOrderBy>(int? pageIndex, int? pageSize, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc);
-        PaginatedList<TEntity> FindListPage<TOrderBy>(int? pageIndex, int? pageSize, string strSql ,Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc, params DbParameter[] dbParameter);
+        Task<PaginatedList<TEntity>> FindListPageAsync(int? pageIndex, int? pageSize, IQueryable<TEntity> source);
+       
+        PaginatedList<TEntity> FindListPage(int? pageIndex, int? pageSize, IQueryable<TEntity> source);
         #endregion
 
         void UpdateColumn(TEntity entity, Expression<Func<TEntity, bool>> predicate, params string[] excludeColumnNames);

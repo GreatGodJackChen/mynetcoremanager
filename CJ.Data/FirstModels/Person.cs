@@ -1,4 +1,4 @@
-﻿using Cj.Entities.BaseEntity;
+﻿using CJ.Data.BaseEntity;
 
 namespace CJ.Data.FirstModels
 {

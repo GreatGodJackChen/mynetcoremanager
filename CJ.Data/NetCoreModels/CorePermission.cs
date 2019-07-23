@@ -1,6 +1,5 @@
-﻿using Cj.Entities.BaseEntity;
+﻿using CJ.Data.BaseEntity;
 using System;
-using System.Collections.Generic;
 
 namespace CJ.Data.NetCoreModels
 {
@@ -21,5 +20,6 @@ namespace CJ.Data.NetCoreModels
         public DateTime? ModifiedTime { get; set; }
         public string ModifiedByUserId { get; set; }
         public string ModifiedByUserName { get; set; }
+
     }
 }

@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CJ.Repositories", "CJ.Repos
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CJ.WebApi", "CJ.WebApi\CJ.WebApi.csproj", "{865FB3A7-8263-4B8F-99E8-B482585AA10A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CJ.Framwork", "CJ.Framwork\CJ.Framwork.csproj", "{CD5460DA-7B09-42DB-9B78-043A1CDF5AD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CJ.Framwork", "CJ.Framwork\CJ.Framwork.csproj", "{CD5460DA-7B09-42DB-9B78-043A1CDF5AD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

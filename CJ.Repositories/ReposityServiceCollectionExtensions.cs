@@ -1,21 +1,17 @@
-﻿using Cj.Entities.BaseEntity;
-using CJ.Core.Infrastructure;
+﻿using CJ.Core.Infrastructure;
 using CJ.Core.Reflection;
-using CJ.Data.FirstModels;
 using CJ.Repositories.BaseRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using CJ.Repositories.Interceptor;
-using AspectCore.Extensions.DependencyInjection;
 using AspectCore.Configuration;
 using AspectCore.Extensions.Autofac;
 using Autofac;
+using CJ.Data.BaseEntity;
 
 namespace CJ.Repositories
 {
@@ -43,7 +39,7 @@ namespace CJ.Repositories
                                select new EntityTypeInfo(property.PropertyType.GenericTypeArguments[0], property.DeclaringType);
                 foreach (var entity in entities)
                 {
-                    var primaryKeyType = ReflectionHelper.GetPrimaryKeyType(entity.EntityType);
+                    var primaryKeyType =GetPrimaryKeyType(entity.EntityType);
                     var protype = typeof(IRepository<>).MakeGenericType(entity.EntityType);
                     var eFprotype = typeof(EfCoreRepositoryBase<,>).MakeGenericType(entity.DeclaringType, entity.EntityType);
                     var protypekey = typeof(IRepository<,>).MakeGenericType(entity.EntityType, primaryKeyType);
@@ -65,6 +61,18 @@ namespace CJ.Repositories
                 config.Interceptors.AddTyped<UnitOfWorkInterceptor>(
                     Predicates.ForService("*AppService")); //拦截所有Repository后缀的类或接口
             });
+        }
+        public static Type GetPrimaryKeyType(Type entityType)
+        {
+            foreach (var interfaceType in entityType.GetTypeInfo().GetInterfaces())
+            {
+                if (interfaceType.GetTypeInfo().IsGenericType && interfaceType.GetGenericTypeDefinition() == typeof(IEntity<>))
+                {
+                    return interfaceType.GenericTypeArguments[0];
+                }
+            }
+
+            throw new System.Exception("Can not find primary key type of given entity type: " + entityType + ". Be sure that this entity type implements IEntity<TPrimaryKey> interface");
         }
     }
 }

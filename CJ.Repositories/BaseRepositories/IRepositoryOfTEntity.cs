@@ -1,7 +1,4 @@
-﻿using Cj.Entities.BaseEntity;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CJ.Data.BaseEntity;
 
 namespace CJ.Repositories.BaseRepositories
 {

@@ -18,7 +18,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CJ.Core\CJ.Core.csproj" />
     <ProjectReference Include="..\CJ.Domain\CJ.Domain.csproj" />
-    <ProjectReference Include="..\Cj.Entities\CJ.Entities.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,6 @@
-﻿using Cj.Entities.BaseEntity;
+﻿using CJ.Data.BaseEntity;
 using CJ.Domain.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CJ.Repositories.BaseRepositories
 {

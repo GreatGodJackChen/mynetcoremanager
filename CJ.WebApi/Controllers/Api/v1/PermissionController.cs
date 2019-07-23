@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using CJ.Application.CoreDbContext.CorePermissionApp;
 using CJ.Core.ExpressionHelper;
 using CJ.Core.Responser;
 using CJ.Data.NetCoreModels;
+using CJ.Entities.NetCore;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -25,10 +27,9 @@ namespace CJ.WebApi.Controllers.Api.v1
         {
             var response = ResponseModelFactory.CreateInstance;
             //var request = Request.Query["paramsInfo"];
-            //var dic = JsonConvert.DeserializeObject<Dictionary<string, object>>(request);
-            var predicate = ExpressionBuilder.True<CorePermission>();
-            //int currentPage = 0; int pageSize = 0;
-            //if (dic!=null)
+            //var dic = JsonConvert.DeserializeObject<Dictionary<string, string>>(request);
+            var predicate = ExpressionBuilder.True<PermissionEntity>();
+            //if (dic != null)
             //{
             //    if (dic.Keys.Contains("currentPage"))
             //    {
@@ -40,15 +41,14 @@ namespace CJ.WebApi.Controllers.Api.v1
             //    }
             //    if (dic.Keys.Contains("name"))
             //    {
-            //        where = f => f.Name.Contains(dic["name"].ToString());
+            //        predicate = predicate.And(f => f.Name.Contains(dic["name"].ToString()));
             //    }
             //}
             if (!string.IsNullOrEmpty(name))
             {
                 predicate = predicate.And(f => f.Name.Contains(name));
             }
-            Expression<Func<CorePermission, DateTime?>> orderby = f => f.CreatedTime;
-            var list = _permissionAppService.GetList(currentPage, pageSize, predicate, orderby);
+            var list = _permissionAppService.GetList(currentPage, pageSize, predicate);
             response.SetData(list);
             response.SetPagination(list.Pagination);
             return Ok(response);
@@ -65,15 +65,15 @@ namespace CJ.WebApi.Controllers.Api.v1
         //[FromBody]
         //string permission
         [HttpPost]
-        public IActionResult Add(int currentPage, int pageSize)
+        public IActionResult Add(object obj)
         {
+            int currentPage = 0;int pageSize = 0;
             var response = ResponseModelFactory.CreateInstance;
             var result = response.GetRequestAsync(Request.Body).Result;
             var dic = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
             var request = _permissionAppService.AddPermission(dic);
-            var predicate = ExpressionBuilder.True<CorePermission>();
-            Expression<Func<CorePermission, DateTime?>> orderby = f=>f.CreatedTime;
-            var list = _permissionAppService.GetList(currentPage, pageSize, predicate, orderby);
+            var predicate = ExpressionBuilder.True<PermissionEntity>();
+            var list = _permissionAppService.GetList(currentPage, pageSize, predicate);
             response.SetData(list);
             response.SetPagination(list.Pagination);
 
@@ -101,8 +101,9 @@ namespace CJ.WebApi.Controllers.Api.v1
                 Id = dic["Id"],
             };
             Expression<Func<CorePermission, DateTime?>> orderby = f => f.CreatedTime;
-            var predicate = ExpressionBuilder.True<CorePermission>();
-            var list = _permissionAppService.Update(currentPage,pageSize, predicate, permission, orderby);
+            var predicate = ExpressionBuilder.True<PermissionEntity>();
+            var list = _permissionAppService.Update(currentPage,pageSize, predicate, permission);
+            list = _permissionAppService.GetList(currentPage, pageSize, predicate);
             //var list = _permissionAppService.GetList(currentPage, pageSize, where);
             response.SetData(list);
             response.SetPagination(list.Pagination);
@@ -135,7 +136,7 @@ namespace CJ.WebApi.Controllers.Api.v1
             var dic = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(result);
             string[] strId = dic!=null?dic["key"]:new string[] { };
             Expression<Func<CorePermission, DateTime?>> orderby = f => f.CreatedTime;
-            var list=  _permissionAppService.Delete(currentPage, pageSize, strId, orderby);
+            var list=  _permissionAppService.Delete(currentPage, pageSize, strId);
             response.SetData(list);
             response.SetPagination(list.Pagination);
             return Ok(response);

@@ -52,8 +52,8 @@ namespace CJ.Repositories.BaseRepositories
                 return (PageIndex < TotalPages);
             }
         }
-        public static async Task<PaginatedList<TEntity>> CreatePageAsync<TOrderBy>(
-            IQueryable<TEntity> source, int? pageIndex, int? pageSize, Expression<Func<TEntity, TOrderBy>> orderby,bool IsAsc)
+        public static async Task<PaginatedList<TEntity>> CreatePageAsync(
+            IQueryable<TEntity> source, int? pageIndex, int? pageSize)
         {
             try
             {
@@ -61,13 +61,9 @@ namespace CJ.Repositories.BaseRepositories
                 pageSize = pageSize ?? 10;
                 pageIndex = pageIndex == 0 ? 1 : pageIndex;
                 pageSize = pageSize == 0 ? 10 : pageSize;
-                var items = source;
-                if (orderby != null)
-                {
-                    items = IsAsc ? items.OrderByDescending(orderby) : items.OrderBy(orderby);
-                }
-                var count = await items.CountAsync();
-                var list = await items.Skip(
+
+                var count = await source.CountAsync();
+                var list = await source.Skip(
                         (pageIndex??1 - 1) * pageSize??10)
                     .Take(pageSize??10).ToListAsync();
                 return new PaginatedList<TEntity>(list, count, pageIndex??1, pageSize??10);
@@ -79,8 +75,8 @@ namespace CJ.Repositories.BaseRepositories
             }
 
         }
-        public static PaginatedList<TEntity> CreatePage<TOrderBy>(
-            IQueryable<TEntity> source, int? pageIndex, int? pageSize, Expression<Func<TEntity, TOrderBy>> orderby, bool IsAsc)
+        public static PaginatedList<TEntity> CreatePage(
+            IQueryable<TEntity> source, int? pageIndex, int? pageSize)
         {
             try
             {
@@ -88,13 +84,9 @@ namespace CJ.Repositories.BaseRepositories
                 pageSize = pageSize ?? 10;
                 pageIndex = pageIndex == 0 ? 1 : pageIndex;
                 pageSize = pageSize == 0 ? 10 : pageSize;
-                var items = source;
-                if (orderby != null)
-                {
-                    items = IsAsc ? items.OrderByDescending(orderby) : items.OrderBy(orderby);
-                }
-                var count = items.Count();
-                var list = items.Skip(
+
+                var count = source.Count();
+                var list = source.Skip(
                         ((pageIndex??1) - 1) * pageSize??10)
                     .Take(pageSize??10).ToList();
                 return new PaginatedList<TEntity>(list, count, pageIndex??1, pageSize??10);

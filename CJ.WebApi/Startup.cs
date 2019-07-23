@@ -90,6 +90,7 @@ namespace CJ.WebApi
             // app.UseJwt();
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseSession();
         }
     }
 }

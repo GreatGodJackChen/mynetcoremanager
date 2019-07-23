@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cj.Entities.BaseEntity
+namespace CJ.Data.BaseEntity
 {
     public class EntityTypeInfo
     {

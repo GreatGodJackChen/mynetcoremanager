@@ -1,19 +1,21 @@
 ﻿using CJ.Data.NetCoreModels;
+using CJ.Entities.NetCore;
 using CJ.Repositories.BaseRepositories;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace CJ.Application.CoreDbContext.CorePermissionApp
 {
-    public class PermissionAppService: IPermissionAppService
+    public class PermissionAppService : IPermissionAppService
     {
         private readonly IRepository<CorePermission> _repository;
-        public PermissionAppService(IRepository<CorePermission> repository)
+        private readonly IRepository<CoreMenu> _menuRepository;
+        public PermissionAppService(IRepository<CorePermission> repository, IRepository<CoreMenu> menuRepository)
         {
             _repository = repository;
+            _menuRepository = menuRepository;
         }
         public string AddPermission(Dictionary<string, string> dic)
         {
@@ -26,24 +28,44 @@ namespace CJ.Application.CoreDbContext.CorePermissionApp
             var result = _repository.InsertAndGetId(permission);
             return result;
         }
-        public PaginatedList<CorePermission> GetList(int currentPage,int pageSize, Expression<Func<CorePermission, bool>> predicate, Expression<Func<CorePermission, DateTime?>> orderby)
+        public PaginatedList<PermissionEntity> GetList(int currentPage, int pageSize, Expression<Func<PermissionEntity, bool>> predicate)
         {
-            var result = _repository.FindListPage(currentPage, pageSize, predicate, orderby,true);
+            var query = from o in _repository.GetAll()
+                        join d in _menuRepository.GetAll()
+                        on o.MenuId equals d.Id
+                        select new PermissionEntity()
+                        {
+                            Id = o.Id,
+                            Name = o.Name,
+                            ActionCode = o.ActionCode,
+                            MenuId = o.MenuId,
+                            MenuName = d.Name,
+                            CreatedTime = o.CreatedTime,
+                            Status = o.Status
+                        };
+
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+           var tt=  PaginatedList<PermissionEntity>.CreatePage(query,currentPage, pageSize);
+            //var result = _repository.FindListPage(currentPage, pageSize, _repository.GetAll());
+            return tt;
+        }
+        public PaginatedList<PermissionEntity> Update(int currentPage, int pageSize, Expression<Func<PermissionEntity, bool>> predicate, CorePermission permission)
+        {
+            _repository.UpdateColumn(permission, null, new string[] { "Name", "MenuId", "ActionCode" });
+            var result = GetList(currentPage, pageSize, predicate);
             return result;
         }
-        public PaginatedList<CorePermission> Update(int currentPage, int pageSize, Expression<Func<CorePermission, bool>> where, CorePermission permission, Expression<Func<CorePermission, DateTime?>> orderby)
-        {
-            _repository.UpdateColumn(permission, null,new string[] { "Name","MenuId", "ActionCode" });
-            var result = _repository.FindListPage(currentPage, pageSize, orderby, true);
-            return result;
-        }
-        public PaginatedList<CorePermission> Delete(int currentPage, int pageSize, string[] strId, Expression<Func<CorePermission, DateTime?>> orderby)
+        public PaginatedList<CorePermission> Delete(int currentPage, int pageSize, string[] strId)
         {
             foreach (var id in strId)
             {
                 _repository.Delete(id);
             }
-            var result = _repository.FindListPage(currentPage, pageSize, orderby, true);
+            var result = _repository.FindListPage(currentPage, pageSize,null);
             return result;
         }
     }
