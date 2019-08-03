@@ -42,18 +42,17 @@ namespace CJ.WebApi
 
             //services.AddCors(options =>
             //{
-            //    options.AddPolicy("AllowSpecificOrigin",
-            //        builder =>
-            //        {
-            //    //builder.WithOrigins("http://0.0.0.0:3201").AllowAnyHeader();
-            //    builder.SetIsOriginAllowed((string arg) => {
-            //                System.Console.WriteLine(arg);
-            //                return true;
-            //            });
-            //        });
-
+            //    // this defines a CORS policy called "default"
+            //    options.AddPolicy("default", policy =>
+            //    {
+            //        policy.WithOrigins("http://localhost:8000")
+            //            .AllowAnyHeader()
+            //            .AllowAnyMethod();
+            //    });
             //});
-            /////
+
+            services.AddAuthorization();
+
             services.AddMvc(o => {
                 o.Filters.Add<GlobalExceptionFilter>();
                 o.Filters.Add<AuthActionFilter>();
@@ -85,12 +84,11 @@ namespace CJ.WebApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-           app.UseOptionMiddleware();
-           // app.UseCors("AllowSpecificOrigin");
-            // app.UseJwt();
+            //app.UseCors("default");
+
+            app.UseOptionMiddleware();
             app.UseHttpsRedirection();
             app.UseMvc();
-            app.UseSession();
         }
     }
 }

@@ -19,6 +19,7 @@
     <ProjectReference Include="..\CJ.Data\CJ.Data.csproj" />
     <ProjectReference Include="..\CJ.Domain\CJ.Domain.csproj" />
     <ProjectReference Include="..\CJ.Framwork\CJ.Framwork.csproj" />
+    <ProjectReference Include="..\CJ.Models\CJ.Models.csproj" />
     <ProjectReference Include="..\CJ.Repositories\CJ.Repositories.csproj" />
   </ItemGroup>
 

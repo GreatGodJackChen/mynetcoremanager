@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CJ.Application.CoreDbContext.CoreUserApp;
 using CJ.Core.Caching;
 using CJ.Core.Responser;
@@ -30,7 +31,7 @@ namespace CJ.WebApi.Controllers
                 LoginName = postuser.userName,
                 Password = postuser.password
             };
-            var user = _userAppService.GetUser(userInfo);
+            var user = _userAppService.GetUser(userInfo.LoginName);
             if (user!=null)
             {
                 Dictionary<string, string> clims = new Dictionary<string, string>();

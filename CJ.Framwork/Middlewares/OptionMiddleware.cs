@@ -14,8 +14,8 @@ namespace CJ.Framwork.Middlewares
         public async Task InvokeAsync(HttpContext context)
 
         {
-            context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-            context.Response.Headers.Add("Access-Control-Allow-Headers", "content-type,x-requested-with,useless");
+            context.Response.Headers.Add("Access-Control-Allow-Origin", "http://localhost:8000");
+            context.Response.Headers.Add("Access-Control-Allow-Headers", "*");
             context.Response.Headers.Add("Access-Control-Allow-Methods", "*");
             //context.Response.Headers.Add("Access-Control-Allow-Headers", "useless");
             if (context.Request.Method.ToUpper() == "OPTIONS")

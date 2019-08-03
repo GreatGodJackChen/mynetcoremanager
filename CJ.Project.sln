@@ -21,6 +21,31 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CJ.WebApi", "CJ.WebApi\CJ.W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CJ.Framwork", "CJ.Framwork\CJ.Framwork.csproj", "{CD5460DA-7B09-42DB-9B78-043A1CDF5AD2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer", "IdentityServer\IdentityServer.csproj", "{585BADB6-1A6E-45A8-838B-2C4633D76DA3}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ant-design-pro-master", "ant-design-pro-master\", "{97820EBB-4253-49A6-85EA-EF59755774D3}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_60665"
+		Debug.AspNetCompiler.PhysicalPath = "ant-design-pro-master\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_60665\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_60665"
+		Release.AspNetCompiler.PhysicalPath = "ant-design-pro-master\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_60665\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "60665"
+		SlnRelativePath = "ant-design-pro-master\"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CJ.Models", "CJ.Models\CJ.Models.csproj", "{B4C21E15-F9A9-4855-8E7A-EEADA02E98BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +88,18 @@ Global
 		{CD5460DA-7B09-42DB-9B78-043A1CDF5AD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD5460DA-7B09-42DB-9B78-043A1CDF5AD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD5460DA-7B09-42DB-9B78-043A1CDF5AD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{585BADB6-1A6E-45A8-838B-2C4633D76DA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{585BADB6-1A6E-45A8-838B-2C4633D76DA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{585BADB6-1A6E-45A8-838B-2C4633D76DA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{585BADB6-1A6E-45A8-838B-2C4633D76DA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97820EBB-4253-49A6-85EA-EF59755774D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97820EBB-4253-49A6-85EA-EF59755774D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97820EBB-4253-49A6-85EA-EF59755774D3}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{97820EBB-4253-49A6-85EA-EF59755774D3}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{B4C21E15-F9A9-4855-8E7A-EEADA02E98BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4C21E15-F9A9-4855-8E7A-EEADA02E98BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4C21E15-F9A9-4855-8E7A-EEADA02E98BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4C21E15-F9A9-4855-8E7A-EEADA02E98BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

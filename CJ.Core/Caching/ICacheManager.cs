@@ -20,6 +20,7 @@ namespace CJ.Core.Caching
         /// <param name="key"></param>
         /// <param name="data"></param>
         void Set<T>(string key, T data);
+        void Set<T>(string key, T data,TimeSpan? ts);
         /// <summary>
         /// 更新缓存
         /// </summary>

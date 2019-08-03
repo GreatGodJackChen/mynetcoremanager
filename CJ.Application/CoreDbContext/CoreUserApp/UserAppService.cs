@@ -1,8 +1,6 @@
 ﻿using CJ.Data.NetCoreModels;
+using CJ.Models;
 using CJ.Repositories.BaseRepositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CJ.Application.CoreDbContext.CoreUserApp
 {
@@ -13,11 +11,23 @@ namespace CJ.Application.CoreDbContext.CoreUserApp
         {
             _repository = repository;
         }
-        public CoreUser GetUser(CoreUser requser)
+        //public CoreUser GetUser(string loginName)
+        //{
+        //    var user = _repository.FirstOrDefault(a=>a.LoginName== loginName);
+        //    //if (user != null)
+        //    //{
+        //    //    return new LoginInputModel() { };
+        //    //}
+        //    return null;
+        //}
+        public LoginInputModel GetUser(string loginName)
         {
-            //密码加密处理
-            var user = _repository.FirstOrDefault(a=>a.LoginName==requser.LoginName && a.Password== requser.Password);
-            return user;
+            var user = _repository.FirstOrDefault(a => a.LoginName == loginName);
+            if (user != null)
+            {
+                return new LoginInputModel() {Username=user.LoginName,Password=user.Password, DisplayName=user.DisplayName,Id=user.Id};
+            }
+            return null;
         }
     }
 }

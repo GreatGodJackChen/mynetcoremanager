@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -20,15 +21,22 @@ namespace CJ.Core.Caching
         {
             return GetAsync(key).Result;
         }
-
-        public async void Set<T>(string key, T value)
+        public  void Set<T>(string key, T value)
+        {
+            if (string.IsNullOrEmpty(key))
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+            Set(key, value, null);
+        }
+        public async void Set<T>(string key, T value,TimeSpan? ts)
         {
             if (key == null)
             {
                 throw new ArgumentNullException(nameof(key));
             }
 
-            await SetAsync(key, value, new DistributedCacheEntryOptions());
+            await SetAsync(key, value, ts);
         }
 
         public async void Refresh(string key)
@@ -45,7 +53,7 @@ namespace CJ.Core.Caching
             await RemoveAsync(key);
         }
 
-        public async Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions options,
+        public async Task SetAsync<T>(string key, T value, TimeSpan? ts,
             CancellationToken token = default(CancellationToken))
         {
             if (string.IsNullOrEmpty(key))
@@ -55,7 +63,14 @@ namespace CJ.Core.Caching
 
             
             var jsonValue = JsonConvert.SerializeObject(value);
-            await _distributedCache.SetStringAsync(key, jsonValue, options, token);
+
+            var option = new DistributedCacheEntryOptions();
+            if(ts!=null)
+            {
+                option.AbsoluteExpirationRelativeToNow = ts;
+            }
+            byte[] bt = Encoding.UTF8.GetBytes(jsonValue);
+            await _distributedCache.SetAsync(key, bt, option,token);
         }
 
         public async Task<string> GetAsync(string key, CancellationToken token = default(CancellationToken))
@@ -65,7 +80,8 @@ namespace CJ.Core.Caching
                 return null;
             }
             token.ThrowIfCancellationRequested();
-            return await _distributedCache.GetStringAsync(key, token);
+            var  bt= await _distributedCache.GetAsync(key, token);
+            return  Encoding.UTF8.GetString(bt);
         }
 
         public async Task RemoveAsync(string key, CancellationToken token = default(CancellationToken))

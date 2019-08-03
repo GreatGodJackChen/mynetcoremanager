@@ -1,9 +1,10 @@
 ﻿using CJ.Data.NetCoreModels;
+using CJ.Models;
 
 namespace CJ.Application.CoreDbContext.CoreUserApp
 {
     public interface IUserAppService
     {
-        CoreUser GetUser(CoreUser user);
+        LoginInputModel GetUser(string loginName);
     }
 }
